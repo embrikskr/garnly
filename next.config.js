@@ -1,4 +1,5 @@
 const isGitHubPages = process.env.GITHUB_PAGES === "true";
+const customDomain = process.env.GITHUB_PAGES_CUSTOM_DOMAIN;
 const repoName = "garnly";
 
 /** @type {import('next').NextConfig} */
@@ -8,11 +9,15 @@ const nextConfig = {
     ? {
         output: "export",
         trailingSlash: true,
-        basePath: `/${repoName}`,
-        assetPrefix: `/${repoName}/`,
         images: {
           unoptimized: true,
         },
+        ...(!customDomain
+          ? {
+              basePath: `/${repoName}`,
+              assetPrefix: `/${repoName}/`,
+            }
+          : {}),
       }
     : {}),
 };
